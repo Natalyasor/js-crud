@@ -1,0 +1,45 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 160px;
+  gap: 32px;
+}
+.form .form_title {
+  font-size: 20px;
+  font-weight: bold;
+  padding-bottom: 4px;
+  border-bottom: 1 px solid #ddd;
+}
+.form .form_content {
+  display: grid;
+  gap: 24px;
+}
+.form .form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form .form_label {
+  font-size: 14px;
+}
+.form .form_input {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+.form .form_button {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 20px;
+}
+.form .main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.form .user-list li {
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */
