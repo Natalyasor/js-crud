@@ -119,7 +119,7 @@ router.post('/user-update', function (req, res) {
 
   if (user.verifyPassword(password)) {
     User.update(user, { email })
-    const result = true
+    result = true
   }
 
   res.render('success-info', {
