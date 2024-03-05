@@ -130,5 +130,59 @@ router.post('/user-update', function (req, res) {
   })
 })
 
+// ================================================================
+class Product {
+  static #list = []
+
+  constructor(name, price, description) {
+    this.name = name
+    this.price = price
+    this.description = description
+    this.createDate = newDate()
+    this.id = Math.trunc(Math.random() * 100000)
+  }
+
+  static add = (product) => {
+    this.#list.push(product)
+  }
+
+  static getList = () => this.#list
+
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
+
+  static deleteById = (id) => {
+    const index = this.#list.findIndex(
+      (product) => product.id === id,
+    )
+    if (index !== -1) {
+      this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
+  static updateByid = (id, data) => {
+    const product = this.getById(id)
+  }
+}
+// ================================================================
+
+router.post('/product-create - alert', function (req, res) {
+  const { name, price, description } = req.body
+
+  const product = new Product(name, price, description)
+
+  Product.add(product)
+
+  console.log(Product.getList())
+
+  res.render('alert', {
+    style: 'alert',
+    info_title: 'Успішно',
+    info_description: 'Товар додано',
+  })
+})
+
 // Підключаємо роутер до бек-енду
 module.exports = router
