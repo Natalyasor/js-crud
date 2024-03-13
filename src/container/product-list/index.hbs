@@ -4,8 +4,12 @@
 }}
 
 <main>
-  <h1>Товар створений</h1>
-  <a href="/">Повернутися назад</a>
+  <div>
+    {{#each list}}
+    {{> product-card}}
+    {{/each}}
+  </div>
+  <a href="/product-alert">Редагувати товар</a>
 </main>
 
 {{!

@@ -67,29 +67,52 @@
       </form>
     </div>
   </section>
+</main>
+
+<main class="create">
+  <section>
+    <form method="POST" action="product-create">
+      <h1 class="title_create text-primary">Створення товару</h1>
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-primary">Інформація про товар</h1>
+          <div class="form_field_1">
+            <div class="form_1">
+              <label for="name" class="form_label">Назва товару</label>
+              <input type="text" name="name" class="form_input">
+            </div>
+            <div class="form_1">
+              <label for="price" class="form_label">ціна</label>
+              <input type="text" name="price" class="form_input">
+            </div>
+
+          </div>
+          <div class="form_1">
+            <label for="description" class="form_label">Короткий опис товару</label>
+            <input type="text" name="description" class="form_control">
+            <div class="form-text">Відображується у картці товару</div>
+          </div>
+          <button class="btn btn-primary">Створити товар</button>
+        </div>
+      </div>
+    </form>
+  </section>
 
   <section>
     <div class="form">
-      <h1 class="form_title text-primary">Створення товару</h1>
-      <form method="POST" action="/product-alert"></form>
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title">Інформація про товар</div>
-          <div class="form_field">
-
-            <label for="name" class="form_label">Назва товару</label>
-            <input type="name" name="id" class="form_input">
-            <label for="preic" class="form_label">Ціна</label>
-            <input type="preic" name="id" class="form_input">
-
-            <div class="form_field">
-              <label for="description" class="form_label">Короткий опис товару</label>
-              <input type="description" name="id" class="form_input">
-              <div class="form-text">Відображується у картці товару</div>
-            </div>
-            <button class="btn btn-primary">Створити товар</button>
-          </div>
-        </div>
+      <h1 class="product_text">Список створених товарів</h1>
+      <div class="product-list">
+        {{#with data.products}}
+        {{#if isEmpty}}
+        <mark>Список товарів пустий</mark>
+        {{else}}
+        <ul>
+          {{#each list}}
+          <li>{{name}} | {{price}}</li>
+          {{/each}}
+        </ul>
+        {{/if}}
+        {{/with}}
       </div>
     </div>
   </section>
@@ -98,6 +121,16 @@
 
 
 
+<main>
+  <section>
+    <form method="POST" action="product-list">
+      <h1 class="text-primary text-center">Список товарів</h1>
+      <div class="card_content">
+        {{> product-card}}
+      </div>
+    </form>
+  </section>
+</main>
 
 {{!
 Цей код містить лише те, що буде виводитись в
