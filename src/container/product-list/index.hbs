@@ -4,12 +4,36 @@
 }}
 
 <main>
-  <div>
-    {{#each list}}
-    {{> product-card}}
-    {{/each}}
-  </div>
-  <a href="/product-alert">Редагувати товар</a>
+  <main>
+    <section>
+      <form method="POST" action="product-list">
+        <h1 class="text-primary text-center">Список товарів</h1>
+        <div class="card_content">
+          {{> product-card}}
+        </div>
+      </form>
+    </section>
+
+    <section>
+      <div class="form">
+        <h1 class="form_title">Список створених товарів</h1>
+        <div class="product-list">
+          {{#with data.products}}
+          {{#if isEmpty}}
+          <mark>пустий</mark>
+          {{else}}
+          <ul>
+            {{#each list}}
+            <li>{{name}} | {{price}} | {{description}}</li>
+            {{/each}}
+          </ul>
+          {{/if}}
+          {{/with}}
+        </div>
+        <button class="btn btn-primary" href="/product-create"> Додати продукт</button>
+      </div>
+    </section>
+  </main>
 </main>
 
 {{!

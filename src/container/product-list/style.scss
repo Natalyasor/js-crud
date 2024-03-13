@@ -1,0 +1,121 @@
+@use '../../lib/service.scss' as s;
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(40);
+    gap: s.space(8);
+
+.form_title {
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: s.space(1);
+        border-bottom: 1 px solid s.color('light');
+    }
+    .form_content {
+        display: grid;
+        gap: s.space(6);
+    }
+    
+    .form_field {
+        display: flex;
+        flex-direction: column;
+        gap: s.space(2);
+    }
+
+  
+    
+    .form_label {
+        font-size: 14px;
+    }
+
+    .form_input {
+        border: 1px solid s.color('light');
+         padding: s.space(2);
+    }
+
+    .form_button {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 20px;
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        gap: s.space(10);
+    }
+    .user-list {
+        li {
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    }
+
+   .text-primary {
+    display: flex;
+   font-size: 14px;
+   }
+}
+
+.card_content {
+display: grid;
+grid-template-columns: repeat(3, auto);
+grid-gap: 20px;
+padding: s.space(40);
+padding-top: 40;
+}
+.price {
+    display: flex;
+}
+.card-title {
+    font-size: 20px;
+}
+
+.description {
+    padding-top: 20px;
+}
+
+.card {
+    border-radius: 35px;
+}
+.title_create {
+    padding: s.space(40);
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+.form_field_1 {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+   
+}
+.form_input {
+    border: 1px solid s.color('light');
+    border-radius: 5px;
+    padding: s.space(2);
+}
+.create {
+    padding: s.space(40);
+}
+.card-title {
+    padding-left: 20px;
+}
+
+.form_1 {
+    display: flex;
+    flex-direction: column; 
+    padding: 20px;
+
+}
+.form_control {
+    border: 1px solid s.color('light');
+    border-radius: 5px;
+    padding: s.space(3);
+}
+.btn {
+    width: 100%;
+  
+}
+.product_text {
+     padding-left: 20px;
+     font-size: 24px;
+}

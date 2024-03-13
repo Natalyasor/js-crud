@@ -135,34 +135,9 @@ router.post('/user-update', function (req, res) {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/product-list', function (req, res) {
-  // res.render генерує нам HTML сторінку
-
-  // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-list', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'index',
-  })
-  // ↑↑ сюди вводимо JSON дані
-})
-
-// ================================================================
-
-// router.get Створює нам один ентпоїнт
-
-// ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/product-create', function (req, res) {
-  const list = Product.getList()
-
   res.render('product-create', {
     style: 'product-create',
-
-    data: {
-      Products: {
-        list,
-        isEmpty: list.length === 0,
-      },
-    },
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -184,9 +159,10 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-create', {
+  res.render('product-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-create',
+    style: 'product-alert',
+    info: 'Товар створений',
 
     // ↑↑ сюди вводимо JSON дані
   })
@@ -214,12 +190,18 @@ class Product {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.post('/product-list', function (req, res) {
-  const { name, price, description } = req.body
-  //
+router.get('/product-list', function (req, res) {
+  const list = Product.getList()
   res.render('product-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'product-list',
+
+    data: {
+      Product: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
   })
   // ↑↑ сюди вводимо JSON дані
 })
