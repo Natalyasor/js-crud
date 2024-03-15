@@ -46,4 +46,10 @@
   padding: 20px;
 }
 
+.card_content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
 /*# sourceMappingURL=style.css.map */

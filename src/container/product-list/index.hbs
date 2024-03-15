@@ -25,6 +25,7 @@
           <ul>
             {{#each list}}
             <li>{{name}} | {{price}} | {{description}} | {{id}}<a href="/product-edit?id={{id}}">(Редагувати)</a></li>
+            <li>{{name}} | {{price}} | {{description}} | {{id}}<a href="/product-edit?id={{id}}">(Видалити)</a></li>
             {{/each}}
           </ul>
           {{/if}}
@@ -33,6 +34,7 @@
         <a class="btn btn-primary" href="/product-create"> Додати продукт</a>
       </div>
     </section>
+
   </main>
 </main>
 

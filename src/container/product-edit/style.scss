@@ -7,6 +7,7 @@
     flex-direction: column;
 }
 
+
 .title {
     padding-bottom: 20px;
 }
@@ -44,3 +45,8 @@
     padding: 20px;
     
    }
+  .card_content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }

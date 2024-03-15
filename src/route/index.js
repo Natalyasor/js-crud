@@ -195,6 +195,19 @@ class Product {
     product.price = price
     product.description = description
   }
+
+  static deleteById = (id) => {
+    const index = this.#list.findIndex(
+      (product) => product.id === id,
+    )
+
+    if (index !== -1) {
+      return this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
 }
 // ================================================================
 
@@ -223,7 +236,7 @@ router.get('/product-list', function (req, res) {
 router.get('/product-edit', function (req, res) {
   const { id } = req.query
 
-  console.log(id)
+  console.log(typeof id)
 
   const product = Product.getById(Number(id))
   console.log(product)
@@ -247,7 +260,7 @@ router.get('/product-edit', function (req, res) {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.post('/product-edit-alert', function (req, res) {
+router.post('/product-edit', function (req, res) {
   const { name, price, description, id } = req.body
 
   const product = Product.getById(Number(id))
@@ -262,5 +275,27 @@ router.post('/product-edit-alert', function (req, res) {
   })
 })
 // ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/product-delete', function (req, res) {
+  const { id } = req.query
+
+  const product = Product.deleteById(Number(id))
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('/product-delete', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: '/product-delete',
+    info: 'Товар видалений',
+
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+// ================================================================
+
 // Підключаємо роутер до бек-енду
 module.exports = router
