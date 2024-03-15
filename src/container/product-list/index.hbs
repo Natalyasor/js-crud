@@ -18,19 +18,19 @@
       <div class="form">
         <h1 class="form_title">Список створених товарів</h1>
         <div class="product-list">
-          {{#with data.products}}
+          {{#with data}}
           {{#if isEmpty}}
           <mark>пустий</mark>
           {{else}}
           <ul>
             {{#each list}}
-            <li>{{name}} | {{price}} | {{description}}</li>
+            <li>{{name}} | {{price}} | {{description}} | {{id}}<a href="/product-edit?id={{id}}">(Редагувати)</a></li>
             {{/each}}
           </ul>
           {{/if}}
           {{/with}}
         </div>
-        <button class="btn btn-primary" href="/product-create"> Додати продукт</button>
+        <a class="btn btn-primary" href="/product-create"> Додати продукт</a>
       </div>
     </section>
   </main>

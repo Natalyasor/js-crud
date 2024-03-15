@@ -175,15 +175,17 @@ class Product {
     this.name = name
     this.price = price
     this.description = description
+    this.id = new Date().getTime()
   }
 
   static add = (product) => {
     this.#list.push(product)
   }
 
-  static getList = () => {
-    return this.#list
-  }
+  static getList = () => this.#list
+
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
 }
 // ================================================================
 
@@ -197,13 +199,58 @@ router.get('/product-list', function (req, res) {
     style: 'product-list',
 
     data: {
-      Product: {
-        list,
-        isEmpty: list.length === 0,
-      },
+      list,
+      isEmpty: list.length === 0,
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/product-edit', function (req, res) {
+  const { id } = req.query
+
+  console.log(typeof id)
+
+  const product = Product.getById(Number(id))
+  console.log(product)
+
+  if (product) {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!')
+  }
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-edit', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-edit',
+    info: 'Товар відредагований',
+
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+// ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/product-edit', function (req, res) {
+  const { name, price, description, id } = req.body
+
+  console.log(name, price, description, id)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('product-edit', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'product-edit',
+    info: 'Товар відредагований',
+
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+// ================================================================
 // Підключаємо роутер до бек-енду
 module.exports = router

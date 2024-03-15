@@ -1,0 +1,46 @@
+@use '../../lib/service.scss' as s;
+
+
+.main {
+    padding: s.space(40);
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    padding-bottom: 20px;
+}
+.form_input {
+    border:  1px solid s.color('light');
+    border-radius: 5px;
+}
+.form  {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+}
+.card_content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+   padding: 20px; 
+   .form_control {
+    border: 1px solid s.color('light');
+   padding: 10px;
+   border-radius: 5px;
+   }
+
+}
+.button {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+   }
+   .button_1 {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    
+   }
