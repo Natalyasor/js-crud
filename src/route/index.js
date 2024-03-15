@@ -287,9 +287,9 @@ router.get('/product-delete', function (req, res) {
   const product = Product.deleteById(Number(id))
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('/product-delete', {
+  res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: '/product-delete',
+    style: 'alert',
     info: 'Товар видалений',
 
     // ↑↑ сюди вводимо JSON дані
