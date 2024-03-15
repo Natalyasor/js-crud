@@ -159,9 +159,9 @@ router.post('/product-create', function (req, res) {
   console.log(Product.getList())
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-alert', {
+  res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-alert',
+    style: 'alert',
     info: 'Товар створений',
 
     // ↑↑ сюди вводимо JSON дані
@@ -186,6 +186,15 @@ class Product {
 
   static getById = (id) =>
     this.#list.find((product) => product.id === id)
+
+  static update = (
+    product,
+    { name, price, description },
+  ) => {
+    product.name = name
+    product.price = price
+    product.description = description
+  }
 }
 // ================================================================
 
@@ -214,7 +223,7 @@ router.get('/product-list', function (req, res) {
 router.get('/product-edit', function (req, res) {
   const { id } = req.query
 
-  console.log(typeof id)
+  console.log(id)
 
   const product = Product.getById(Number(id))
   console.log(product)
@@ -238,15 +247,16 @@ router.get('/product-edit', function (req, res) {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.post('/product-edit', function (req, res) {
+router.post('/product-edit-alert', function (req, res) {
   const { name, price, description, id } = req.body
 
-  console.log(name, price, description, id)
+  const product = Product.getById(Number(id))
+  Product.update(product, { name, price, description })
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('product-edit', {
+  res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'product-edit',
-    info: 'Товар відредагований',
+    style: 'alert',
+    info: 'Успішне виконання',
 
     // ↑↑ сюди вводимо JSON дані
   })
