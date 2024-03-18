@@ -1,0 +1,56 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 160px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.product_purchase {
+  display: flex;
+  gap: 16px;
+  padding-top: 60px;
+}
+
+.product-card_title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.product-card_description {
+  font-size: 16px;
+}
+
+.button {
+  display: grid;
+  gap: 16px;
+}
+
+.btn {
+  width: 50%;
+  border-radius: 80px;
+}
+
+.btn_1 {
+  width: 30%;
+  border-radius: 80px;
+}
+
+.btn_2 {
+  border-radius: 8px;
+  width: auto;
+}
+
+.image {
+  padding: 80px;
+}
+
+/*# sourceMappingURL=style.css.map */
