@@ -202,7 +202,7 @@ class Product {
     )
 
     if (index !== -1) {
-      return this.#list.splice(index, 1)
+      this.#list.splice(index, 1)
       return true
     } else {
       return false
@@ -285,12 +285,13 @@ router.get('/product-delete', function (req, res) {
   const { id } = req.query
 
   const product = Product.deleteById(Number(id))
+  console.log(product)
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'alert',
-    info: 'Товар видалений',
+    info: product ? 'Видалено' : 'Помилка',
 
     // ↑↑ сюди вводимо JSON дані
   })

@@ -5,14 +5,7 @@
 
 <main>
   <main>
-    <section>
-      <form method="POST" action="product-list">
-        <h1 class="text-primary text-center">Список товарів</h1>
-        <div class="card_content">
-          {{> product-card}}
-        </div>
-      </form>
-    </section>
+
 
     <section>
       <div class="form">
@@ -24,8 +17,7 @@
           {{else}}
           <ul>
             {{#each list}}
-            <li>{{name}} | {{price}} | {{description}} | {{id}}<a href="/product-edit?id={{id}}">(Редагувати)</a></li>
-            <li>{{name}} | {{price}} | {{description}} | {{id}}<a href="/product-edit?id={{id}}">(Видалити)</a></li>
+            {{> product-card}}
             {{/each}}
           </ul>
           {{/if}}
