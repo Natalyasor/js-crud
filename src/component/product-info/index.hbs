@@ -1,12 +1,9 @@
 {{#with data}}
 <img src="/img/artline gaming.svg" alt="Продукт 4">
 <div>
-    <h2 class="product-card_title_1">Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600</h2>
+    <h2 class="product-card_title_1">{{title}}</h2>
     <hr>
-    <h3 class="product-card_description_1">AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ
-        /
-        nVidia GeForce RTX 3050, 8 ГБ / без
-        ОД / LAN / без ОС</h3>
+    <h3 class="product-card_description_1">{{description}}</h3>
     <hr>
 
     {{#each category}}
@@ -14,8 +11,8 @@
     {{/each}}
     <div class="field">
         <label for="name" class="form-label">Кількість товару</label>
-        <input type="number" name="name" class="form-input" placeholder="3">
-        <button class="btn btn-primary btn_3">Купити зараз: 113 109грн</button>
+        <input type="number" name="amount" value="1" class="form-input" placeholder="3">
+        <button class="btn btn-primary btn_3">Купити зараз: {{price}}</button>
     </div>
 
 </div>

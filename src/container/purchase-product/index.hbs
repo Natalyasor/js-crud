@@ -4,16 +4,18 @@
 }}
 <main class="main">
   <section>
-    {{> heading title = "Інші товари" info = "Комп'ютери та ноутбуки"}}
+    {{> heading title = "Інформація про товар"}}
+    {{#with data.purchase}}
     <div class="product_purchase">
       <form method="POST" action="/purchase-create?id={{id}}">
         <div class="product_info">
-          {{> product-info}}
+          {{> product-info data=this}}
 
         </div>
       </form>
 
     </div>
+    {{/with}}
 
   </section>
 </main>

@@ -302,29 +302,26 @@ class Purchase {
   static #list = []
 
   static #count = 0
-  constructor(img, title, description, category, price) {
+  constructor(
+    img,
+    title,
+    description,
+    category,
+    price,
+    amount = 0,
+  ) {
     this.id = ++Purchase.#count
     this.img = img
     this.title = title
     this.description = description
     this.category = category
     this.price = price
+    this.amount = amount
   }
 
-  static add = (
-    img,
-    title,
-    description,
-    category,
-    price,
-  ) => {
-    const newPurchase = new Purchase(
-      img,
-      title,
-      description,
-      category,
-      price,
-    )
+  static add = (...data) => {
+    const newPurchase = new Purchase(...data)
+
     this.#list.push(newPurchase)
   }
 
@@ -354,6 +351,7 @@ Purchase.add(
     { id: 2, text: 'Топ продажів' },
   ],
   27000,
+  10,
 )
 Purchase.add(
   '/https://picsum.photos/200/300',
@@ -361,6 +359,7 @@ Purchase.add(
   `Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux`,
   [{ id: 2, text: 'Топ продажів' }],
   17000,
+  10,
 )
 Purchase.add(
   '/https://picsum.photos/200/300',
@@ -368,7 +367,65 @@ Purchase.add(
   `Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС`,
   [{ id: 2, text: 'Готовий до відправки' }],
   113109,
+  10,
 )
+class Price {
+  static DELEVERY_PRICE = 150
+}
+
+class Prodact {
+  static DELIVERY_PRICE = 150
+  static #count = 0
+  static #list = []
+
+  constructor(data, purchase) {
+    this.id = ++Prodact.#count
+
+    this.firstname = data.firstname
+    this.lastname = data.lastname
+
+    this.phone = data.phone
+    this.email = data.email
+
+    this.comment = data.comment || null
+    this.bonus = data.bonus || 0
+
+    this.promocode = data.promocode || null
+
+    this.totalPrice = data.totalPrice
+    this.purchasePrice = data.purchasePrice
+    this.deliveryPrice = data.deliveryPrice
+    this.amount = data.amount
+
+    this.purchase = purchase
+  }
+  static add = (...arg) => {
+    const newProdact = new Prodact(...arg)
+
+    this.#list.push(newProdact)
+    return newProdact
+  }
+  static getList = () => {
+    return Prodact.#list.reserve()
+  }
+  static getById = (id) => {
+    return Prodact.#list.find((item) => item.id === id)
+  }
+  static updateById = (id, data) => {
+    const prodact = Prodact.getById(id)
+
+    if (prodact) {
+      if (data.firstname) prodact.firstname = data.firstname
+      if (data.lastname) prodact.lastname = data.lastname
+      if (data.phone) prodact.phone = data.phone
+      if (data.email) prodact.email = data.email
+
+      return true
+    } else {
+      return false
+    }
+  }
+}
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -417,7 +474,64 @@ router.get('/purchase-product', function (req, res) {
 router.post('/purchase-create', function (req, res) {
   const id = Number(req.query.id)
   const amount = Number(req.body.amount)
-  console.log(id, amount)
+
+  if (amount < 1) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Некоректна кількість товару',
+        link: `/purchase-product?id=${id}`,
+      },
+    })
+  }
+
+  const purchase = Purchase.getById(id)
+  if (purchase.amount < 1) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: 'Помилка',
+        info: 'Такої кількості товару нема в наявності',
+        link: `/purchase-product?id=${id}`,
+      },
+    })
+  }
+
+  console.log(purchase, amount)
+
+  const purchasePrice = purchase.price * amount
+  const totalPrice = purchasePrice + Price.DELEVERY_PRICE
+  // router.get Створює нам один ентпоїнт
+
+  res.render('purchase-create', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-create',
+
+    data: {
+      id: purchase.id,
+      cart: [
+        {
+          text: `${purchase.title} (${amount} шт)`,
+          price: purchasePrice,
+        },
+        {
+          text: `Доставка`,
+          price: Price.DELEVERY_PRICE,
+        },
+      ],
+      totalPrice,
+      purchasePrice,
+      deliveryPrice: Price.DELEVERY_PRICE,
+      amount,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+
   res.render('purchase-product', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-product',
@@ -425,6 +539,130 @@ router.post('/purchase-create', function (req, res) {
     data: {
       list: Purchase.getRandomList(id),
       purchase: Purchase.getById(id),
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+// ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-alert', function (req, res) {
+  res.render('purchase-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-alert',
+
+    data: {
+      message: `Операція успішна`,
+      info: `Товар створений`,
+      link: `/test-path`,
+    },
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-submit', function (req, res) {
+  const id = Number(req.query.id)
+
+  let {
+    totalPrice,
+    purchasePrice,
+    deliveryPrice,
+    amount,
+
+    firstname,
+    lastname,
+    email,
+    phone,
+  } = req.body
+
+  const purchase = Purchase.getById(id)
+
+  if (!purchase) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: `Помилка`,
+        info: `Товар не знайдено`,
+        link: `/purchase-list`,
+      },
+    })
+  }
+
+  totalPrice = Number(totalPrice)
+  purchasePrice = Number(purchasePrice)
+  deliveryPrice = Number(deliveryPrice)
+  amount = Number(amount)
+
+  if (
+    isNaN(totalPrice) ||
+    isNaN(purchasePrice) ||
+    isNaN(deliveryPrice) ||
+    isNaN(amount)
+  ) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: `Помилка`,
+        info: `Некоректні дані`,
+        link: `/purchase-list`,
+      },
+    })
+  }
+
+  if (!firstname || !lastname || !email || !phone) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: `Заповніть обовязкові поля`,
+        info: `Некоректні дані`,
+        link: `/purchase-list`,
+      },
+    })
+  }
+
+  const prodact = Prodact.add(
+    {
+      totalPrice,
+      purchasePrice,
+      deliveryPrice,
+      amount,
+
+      firstname,
+      lastname,
+      email,
+      phone,
+    },
+    purchase,
+  )
+  console.log(prodact)
+  res.render('purchase-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-alert',
+
+    data: {
+      message: `Успішно`,
+      info: `Замовлення створено`,
+      link: `/purchase-list`,
     },
   })
   // ↑↑ сюди вводимо JSON дані

@@ -1,0 +1,55 @@
+.main {
+  padding: 160px;
+}
+
+.form_card {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  padding: 20px;
+}
+
+.form_input {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 7px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.form_content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.form_input_1 {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.coment {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.total {
+  padding: 20px;
+}
+
+.cart {
+  display: grid;
+}
+
+.cart_item {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=style.css.map */

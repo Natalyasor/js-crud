@@ -1,0 +1,19 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.field_input {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.field--disabled {
+  position: absolute;
+  display: none;
+}
+
+/*# sourceMappingURL=style.css.map */
