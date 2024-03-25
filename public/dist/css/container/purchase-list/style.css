@@ -1,0 +1,23 @@
+.main_list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 160px;
+}
+
+.purchase_card {
+  padding-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 400px);
+  gap: auto;
+}
+
+.title {
+  font-size: 20px;
+}
+
+.product {
+  color: gray;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -369,14 +369,54 @@ Purchase.add(
   113109,
   10,
 )
+
+Prodact.add(`Футбольний м'яч`[{ id: 14587 }], 1260.75, 12.6)
+Prodact.add(
+  `Смартфон Xiaomi Redmi Note 10`[{ id: 14602 }],
+  5599.0,
+  55.99,
+)
+Prodact.add(
+  `Телевізор Samsung 55" 4K Ultra HD`[{ id: 14619 }],
+  22999.0,
+  229.99,
+)
+Prodact.add(
+  `Акустична система JBL Charge 4`[{ id: 14624 }],
+  4999.0,
+  49.99,
+)
+Prodact.add(
+  `Фотокамера Canon EOS M50`[{ id: 14631 }],
+  24750.0,
+  247.5,
+)
 class Price {
   static DELEVERY_PRICE = 150
 }
 
 class Prodact {
   static DELIVERY_PRICE = 150
+  static #BONUS_FACTOR = 0.1
   static #count = 0
   static #list = []
+
+  static #bonusAccount = new Map()
+  static getBonusBalance = (email) => {
+    return Prodact.#bonusAccount.get(email) || 0
+  }
+  static calcBonusAmount = (value) => {
+    return value * Prodact.#BONUS_FACTOR
+  }
+  static updateBonusBalance = (
+    email,
+    price,
+    bonusUse = 0,
+  ) => {
+    const amount = this.calcBonusAmount(price)
+    const currentBalanse = Prodact.getBonusBalance(email)
+    const updateBalanse = currentBalanse + amount - bonusUse
+  }
 
   constructor(data, purchase) {
     this.id = ++Prodact.#count
@@ -406,7 +446,11 @@ class Prodact {
     return newProdact
   }
   static getList = () => {
-    return Prodact.#list.reserve()
+    return Prodact.#list
+      .reserve()
+      .map(({ id, purchase, price, bonus }) => {
+        id, purchase, price, bonus
+      })
   }
   static getById = (id) => {
     return Prodact.#list.find((item) => item.id === id)
@@ -426,6 +470,34 @@ class Prodact {
     }
   }
 }
+
+class Promocode {
+  static #list = []
+
+  constructor(name, factor) {
+    this.name = name
+    this.factor = factor
+  }
+
+  static add = (name, factor) => {
+    const newPromoCode = new Promocode(name, factor)
+    Promocode.#list.push(newPromoCode)
+    return newPromoCode
+  }
+
+  static getbyName = (name) => {
+    return this.#list.find((promo) => promo.name === name)
+  }
+
+  static calc = (promo, price) => {
+    return price * promo.factor
+  }
+}
+
+Promocode.add('SUMMER2023', 0.9)
+Promocode.add('DISCOUNT50', 0.5)
+Promocode.add('SALE25', 0.75)
+
 // ================================================================
 
 // router.get Створює нам один ентпоїнт
@@ -506,6 +578,7 @@ router.post('/purchase-create', function (req, res) {
 
   const purchasePrice = purchase.price * amount
   const totalPrice = purchasePrice + Price.DELEVERY_PRICE
+  const bonus = Prodact.calcBonusAmount(totalPrice)
   // router.get Створює нам один ентпоїнт
 
   res.render('purchase-create', {
@@ -528,6 +601,7 @@ router.post('/purchase-create', function (req, res) {
       purchasePrice,
       deliveryPrice: Price.DELEVERY_PRICE,
       amount,
+      bonus,
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -575,6 +649,7 @@ router.get('/purchase-alert', function (req, res) {
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/purchase-submit', function (req, res) {
+  console.log(req.body)
   const id = Number(req.query.id)
 
   let {
@@ -587,6 +662,8 @@ router.post('/purchase-submit', function (req, res) {
     lastname,
     email,
     phone,
+
+    promocode,
   } = req.body
 
   const purchase = Purchase.getById(id)
@@ -599,6 +676,19 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Товар не знайдено`,
+        link: `/purchase-list`,
+      },
+    })
+  }
+
+  if (purchase.amount < amount) {
+    return res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: `Помилка`,
+        info: `Товару нема в потрібній кількості`,
         link: `/purchase-list`,
       },
     })
@@ -629,7 +719,7 @@ router.post('/purchase-submit', function (req, res) {
 
   if (!firstname || !lastname || !email || !phone) {
     return res.render('purchase-alert', {
-      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      //вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'purchase-alert',
 
       data: {
@@ -640,6 +730,13 @@ router.post('/purchase-submit', function (req, res) {
     })
   }
 
+  if (promocode) {
+    promocode = Promocode.getbyName(promocode)
+
+    if (promocode) {
+      totalPrice = Promocode.calc(promocode, totalPrice)
+    }
+  }
   const prodact = Prodact.add(
     {
       totalPrice,
@@ -651,24 +748,60 @@ router.post('/purchase-submit', function (req, res) {
       lastname,
       email,
       phone,
+
+      promocode,
     },
     purchase,
   )
-  console.log(prodact)
-  res.render('purchase-alert', {
+  console.log(prodact) * //
+    res.render('purchase-alert', {
+      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+      style: 'purchase-alert',
+
+      data: {
+        message: `Успішно`,
+        info: `Замовлення створено`,
+        link: `/purchase-list`,
+      },
+    })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-list', function (req, res) {
+  res.render('purchase-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'purchase-alert',
+    style: 'purchase-list',
 
     data: {
-      message: `Успішно`,
-      info: `Замовлення створено`,
-      link: `/purchase-list`,
+      list: Prodact.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
 
+// ===============================================================
+
 // ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-info', function (req, res) {
+  res.render('purchase-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-info',
+
+    data: {},
+  })
+  // ↑↑ сюди вводимо JSON дані
+})
+
+// ===============================================================
 
 // Підключаємо роутер до бек-енду
 module.exports = router

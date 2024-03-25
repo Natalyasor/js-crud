@@ -31,8 +31,9 @@
             {{> form-fild value=totalPrice name="totalPrice" disabled=true}}
             {{> form-fild value=purchasePrice name="purchasePrice" disabled=true}}
             {{> form-fild value=deliveryPrice name="deliveryPrice" disabled=true}}
+            {{> form-fild value=amount name="amount" disabled=true}}
             <div class="total">
-                <strong>Всього: {{totalPrice}} грн</strong>
+                <strong>Всього: {{totalPrice}} грн ({{bonus}} грн бонусів)</strong>
             </div>
             <button class="btn btn-primary">Оформити замовлення</button>
         </div>
