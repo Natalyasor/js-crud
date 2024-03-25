@@ -370,27 +370,6 @@ Purchase.add(
   10,
 )
 
-Prodact.add(`Футбольний м'яч`[{ id: 14587 }], 1260.75, 12.6)
-Prodact.add(
-  `Смартфон Xiaomi Redmi Note 10`[{ id: 14602 }],
-  5599.0,
-  55.99,
-)
-Prodact.add(
-  `Телевізор Samsung 55" 4K Ultra HD`[{ id: 14619 }],
-  22999.0,
-  229.99,
-)
-Prodact.add(
-  `Акустична система JBL Charge 4`[{ id: 14624 }],
-  4999.0,
-  49.99,
-)
-Prodact.add(
-  `Фотокамера Canon EOS M50`[{ id: 14631 }],
-  24750.0,
-  247.5,
-)
 class Price {
   static DELEVERY_PRICE = 150
 }
@@ -470,6 +449,28 @@ class Prodact {
     }
   }
 }
+
+Prodact.add(`Футбольний м'яч`[{ id: 14587 }], 1260.75, 12.6)
+Prodact.add(
+  `Смартфон Xiaomi Redmi Note 10`[{ id: 14602 }],
+  5599.0,
+  55.99,
+)
+Prodact.add(
+  `Телевізор Samsung 55" 4K Ultra HD`[{ id: 14619 }],
+  22999.0,
+  229.99,
+)
+Prodact.add(
+  `Акустична система JBL Charge 4`[{ id: 14624 }],
+  4999.0,
+  49.99,
+)
+Prodact.add(
+  `Фотокамера Canon EOS M50`[{ id: 14631 }],
+  24750.0,
+  247.5,
+)
 
 class Promocode {
   static #list = []
