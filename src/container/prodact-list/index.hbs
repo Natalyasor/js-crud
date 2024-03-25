@@ -1,0 +1,11 @@
+<main class="main">
+    {{> heading title = "Мої замовлення"}}
+
+    {{#with data.prodact}}
+    <form method="POST" action="/prodact-info">
+        <div class="prodact-card">
+            {{> prodact-card data=this}}
+        </div>
+    </form>
+    {{/with}}
+</main>

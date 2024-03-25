@@ -425,11 +425,7 @@ class Prodact {
     return newProdact
   }
   static getList = () => {
-    return Prodact.#list
-      .reserve()
-      .map(({ id, purchase, price, bonus }) => {
-        id, purchase, price, bonus
-      })
+    return Prodact.#list.reserve()
   }
   static getById = (id) => {
     return Prodact.#list.find((item) => item.id === id)
@@ -450,24 +446,33 @@ class Prodact {
   }
 }
 
-Prodact.add(`Футбольний м'яч`[{ id: 14587 }], 1260.75, 12.6)
 Prodact.add(
-  `Смартфон Xiaomi Redmi Note 10`[{ id: 14602 }],
+  `Футбольний м'яч`,
+  [{ id: 14587 }],
+  1260.75,
+  12.6,
+)
+Prodact.add(
+  `Смартфон Xiaomi Redmi Note 10`,
+  [{ id: 14602 }],
   5599.0,
   55.99,
 )
 Prodact.add(
-  `Телевізор Samsung 55" 4K Ultra HD`[{ id: 14619 }],
+  `Телевізор Samsung 55" 4K Ultra HD`,
+  [{ id: 14619 }],
   22999.0,
   229.99,
 )
 Prodact.add(
-  `Акустична система JBL Charge 4`[{ id: 14624 }],
+  `Акустична система JBL Charge 4`,
+  [{ id: 14624 }],
   4999.0,
   49.99,
 )
 Prodact.add(
-  `Фотокамера Canon EOS M50`[{ id: 14631 }],
+  `Фотокамера Canon EOS M50`,
+  [{ id: 14631 }],
   24750.0,
   247.5,
 )
@@ -677,7 +682,7 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Товар не знайдено`,
-        link: `/purchase-list`,
+        link: `/prodact-list`,
       },
     })
   }
@@ -690,7 +695,7 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Товару нема в потрібній кількості`,
-        link: `/purchase-list`,
+        link: `/prodact-list`,
       },
     })
   }
@@ -713,7 +718,7 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Некоректні дані`,
-        link: `/purchase-list`,
+        link: `/prodact-list`,
       },
     })
   }
@@ -726,7 +731,7 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Заповніть обовязкові поля`,
         info: `Некоректні дані`,
-        link: `/purchase-list`,
+        link: `/prodact-list`,
       },
     })
   }
@@ -762,7 +767,7 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Успішно`,
         info: `Замовлення створено`,
-        link: `/purchase-list`,
+        link: `/prodact-list`,
       },
     })
   // ↑↑ сюди вводимо JSON дані
@@ -773,31 +778,14 @@ router.post('/purchase-submit', function (req, res) {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/purchase-list', function (req, res) {
-  res.render('purchase-list', {
+router.get('/prodact-list', function (req, res) {
+  res.render('prodact-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'purchase-list',
+    style: 'prodact-list',
 
     data: {
-      list: Prodact.getList(),
+      list: Purchase.getList(),
     },
-  })
-  // ↑↑ сюди вводимо JSON дані
-})
-
-// ===============================================================
-
-// ================================================================
-
-// router.get Створює нам один ентпоїнт
-
-// ↙️ тут вводимо шлях (PATH) до сторінки
-router.post('/purchase-info', function (req, res) {
-  res.render('purchase-info', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'purchase-info',
-
-    data: {},
   })
   // ↑↑ сюди вводимо JSON дані
 })
