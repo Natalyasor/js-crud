@@ -779,12 +779,16 @@ router.post('/purchase-submit', function (req, res) {
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/prodact-list', function (req, res) {
+  const list = Purchase.getList()
   res.render('prodact-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'prodact-list',
 
     data: {
-      list: Purchase.getList(),
+      users: {
+        list,
+        isEmpty: list.length === 0,
+      },
     },
   })
   // ↑↑ сюди вводимо JSON дані
