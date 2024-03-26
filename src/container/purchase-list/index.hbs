@@ -1,0 +1,20 @@
+<main class="main">
+    <section>
+        <form method="POST" action="/purchase-list?id={{id}}">
+            {{> heading title = "Мої замовлення"}}
+            <div class="prodact_list">
+                {{#with data}}
+                {{#if isEmpty}}
+                <mark>пустий</mark>
+                {{else}}
+                <ul>
+                    {{#each list}}
+                    {{> prodact-card}}
+                    {{/each}}
+                </ul>
+                {{/if}}
+                {{/with}}
+            </div>
+        </form>
+    </section>
+</main>

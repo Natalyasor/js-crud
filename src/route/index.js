@@ -298,10 +298,11 @@ router.get('/product-delete', function (req, res) {
 // ================================================================
 // ================================================================
 
-class Purchase {
+class Prodact {
   static #list = []
 
   static #count = 0
+
   constructor(
     img,
     title,
@@ -310,7 +311,7 @@ class Purchase {
     price,
     amount = 0,
   ) {
-    this.id = ++Purchase.#count
+    this.id = ++Prodact.#count
     this.img = img
     this.title = title
     this.description = description
@@ -320,20 +321,20 @@ class Purchase {
   }
 
   static add = (...data) => {
-    const newPurchase = new Purchase(...data)
+    const newProdact = new Prodact(...data)
 
-    this.#list.push(newPurchase)
+    this.#list.push(newProdact)
   }
 
   static getList = () => {
     return this.#list
   }
   static getById = (id) => {
-    return this.#list.find((purchase) => purchase.id === id)
+    return this.#list.find((prodact) => prodact.id === id)
   }
   static getRandomList = (id) => {
     const filteredList = this.#list.filter(
-      (purchase) => purchase.id !== id,
+      (prodact) => prodact.id !== id,
     )
 
     const shuffledList = filteredList.sort(
@@ -342,7 +343,7 @@ class Purchase {
     return shuffledList.slice(0, 3)
   }
 }
-Purchase.add(
+Prodact.add(
   '/https://picsum.photos/200/300',
   `Комп'ютер Artline Gaming (X43v31) AMD Ryzen 5 3600/`,
   `AMD Ryzen 5 3600 (3.6 - 4.2 ГГц) / RAM 16 ГБ / HDD 1 ТБ + SSD 480 ГБ / nVidia GeForce RTX 3050, 8 ГБ / без ОД / LAN / без ОС`,
@@ -353,7 +354,7 @@ Purchase.add(
   27000,
   10,
 )
-Purchase.add(
+Prodact.add(
   '/https://picsum.photos/200/300',
   `Комп'ютер COBRA Advanced (I11F.8.H1S2.15T.13356) Intel`,
   `Intel Core i3-10100F (3.6 - 4.3 ГГц) / RAM 8 ГБ / HDD 1 ТБ + SSD 240 ГБ / GeForce GTX 1050 Ti, 4 ГБ / без ОД / LAN / Linux`,
@@ -361,7 +362,7 @@ Purchase.add(
   17000,
   10,
 )
-Purchase.add(
+Prodact.add(
   '/https://picsum.photos/200/300',
   `Комп'ютер ARTLINE Gaming by ASUS TUF v119 (TUFv119)`,
   `Intel Core i9-13900KF (3.0 - 5.8 ГГц) / RAM 64 ГБ / SSD 2 ТБ (2 x 1 ТБ) / nVidia GeForce RTX 4070 Ti, 12 ГБ / без ОД / LAN / Wi-Fi / Bluetooth / без ОС`,
@@ -370,22 +371,19 @@ Purchase.add(
   10,
 )
 
-class Price {
-  static DELEVERY_PRICE = 150
-}
-
-class Prodact {
+class Purchase {
   static DELIVERY_PRICE = 150
   static #BONUS_FACTOR = 0.1
   static #count = 0
   static #list = []
 
   static #bonusAccount = new Map()
+
   static getBonusBalance = (email) => {
-    return Prodact.#bonusAccount.get(email) || 0
+    return Purchase.#bonusAccount.get(email) || 0
   }
   static calcBonusAmount = (value) => {
-    return value * Prodact.#BONUS_FACTOR
+    return value * Purchase.#BONUS_FACTOR
   }
   static updateBonusBalance = (
     email,
@@ -393,12 +391,18 @@ class Prodact {
     bonusUse = 0,
   ) => {
     const amount = this.calcBonusAmount(price)
-    const currentBalanse = Prodact.getBonusBalance(email)
+
+    const currentBalanse = Purchase.getBonusBalance(email)
+
     const updateBalanse = currentBalanse + amount - bonusUse
+
+    Purchase.#bonusAccount.set(email, updateBalanse)
+    console.log(email, updateBalanse)
+    return amount
   }
 
-  constructor(data, purchase) {
-    this.id = ++Prodact.#count
+  constructor(data, prodact) {
+    this.id = ++Purchase.#count
 
     this.firstname = data.firstname
     this.lastname = data.lastname
@@ -412,32 +416,33 @@ class Prodact {
     this.promocode = data.promocode || null
 
     this.totalPrice = data.totalPrice
-    this.purchasePrice = data.purchasePrice
+    this.prodactPrice = data.prodactPrice
     this.deliveryPrice = data.deliveryPrice
     this.amount = data.amount
 
-    this.purchase = purchase
+    this.prodact = prodact
   }
   static add = (...arg) => {
-    const newProdact = new Prodact(...arg)
+    const newPurchase = new Purchase(...arg)
 
-    this.#list.push(newProdact)
-    return newProdact
+    this.#list.push(newPurchase)
+    return newPurchase
   }
   static getList = () => {
-    return Prodact.#list.reserve()
+    return Purchase.#list.reverse()
   }
   static getById = (id) => {
-    return Prodact.#list.find((item) => item.id === id)
+    return Purchase.#list.find((item) => item.id === id)
   }
   static updateById = (id, data) => {
-    const prodact = Prodact.getById(id)
+    const purchase = Purchase.getById(id)
 
-    if (prodact) {
-      if (data.firstname) prodact.firstname = data.firstname
-      if (data.lastname) prodact.lastname = data.lastname
-      if (data.phone) prodact.phone = data.phone
-      if (data.email) prodact.email = data.email
+    if (purchase) {
+      if (data.firstname)
+        purchase.firstname = data.firstname
+      if (data.lastname) purchase.lastname = data.lastname
+      if (data.phone) purchase.phone = data.phone
+      if (data.email) purchase.email = data.email
 
       return true
     } else {
@@ -446,31 +451,31 @@ class Prodact {
   }
 }
 
-Prodact.add(
+Purchase.add(
   `Футбольний м'яч`,
   [{ id: 14587 }],
   1260.75,
   12.6,
 )
-Prodact.add(
+Purchase.add(
   `Смартфон Xiaomi Redmi Note 10`,
   [{ id: 14602 }],
   5599.0,
   55.99,
 )
-Prodact.add(
+Purchase.add(
   `Телевізор Samsung 55" 4K Ultra HD`,
   [{ id: 14619 }],
   22999.0,
   229.99,
 )
-Prodact.add(
+Purchase.add(
   `Акустична система JBL Charge 4`,
   [{ id: 14624 }],
   4999.0,
   49.99,
 )
-Prodact.add(
+Purchase.add(
   `Фотокамера Canon EOS M50`,
   [{ id: 14631 }],
   24750.0,
@@ -515,7 +520,7 @@ router.get('/purchase-index', function (req, res) {
     style: 'purchase-index',
 
     data: {
-      list: Purchase.getList(),
+      list: Prodact.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -535,8 +540,8 @@ router.get('/purchase-product', function (req, res) {
     style: 'purchase-product',
 
     data: {
-      list: Purchase.getRandomList(id),
-      purchase: Purchase.getById(id),
+      list: Prodact.getRandomList(id),
+      prodact: Prodact.getById(id),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -566,8 +571,9 @@ router.post('/purchase-create', function (req, res) {
     })
   }
 
-  const purchase = Purchase.getById(id)
-  if (purchase.amount < 1) {
+  const prodact = Prodact.getById(id)
+
+  if (prodact.amount < 1) {
     return res.render('purchase-alert', {
       // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'purchase-alert',
@@ -580,11 +586,11 @@ router.post('/purchase-create', function (req, res) {
     })
   }
 
-  console.log(purchase, amount)
+  console.log(prodact, amount)
 
-  const purchasePrice = purchase.price * amount
-  const totalPrice = purchasePrice + Price.DELEVERY_PRICE
-  const bonus = Prodact.calcBonusAmount(totalPrice)
+  const prodactPrice = prodact.price * amount
+  const totalPrice = prodactPrice + Purchase.DELIVERY_PRICE
+  const bonus = Purchase.calcBonusAmount(totalPrice)
   // router.get Створює нам один ентпоїнт
 
   res.render('purchase-create', {
@@ -592,20 +598,20 @@ router.post('/purchase-create', function (req, res) {
     style: 'purchase-create',
 
     data: {
-      id: purchase.id,
+      id: prodact.id,
       cart: [
         {
-          text: `${purchase.title} (${amount} шт)`,
-          price: purchasePrice,
+          text: `${prodact.title} (${amount} шт)`,
+          price: prodactPrice,
         },
         {
           text: `Доставка`,
-          price: Price.DELEVERY_PRICE,
+          price: Purchase.DELIVERY_PRICE,
         },
       ],
       totalPrice,
-      purchasePrice,
-      deliveryPrice: Price.DELEVERY_PRICE,
+      prodactPrice,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
       amount,
       bonus,
     },
@@ -617,8 +623,8 @@ router.post('/purchase-create', function (req, res) {
     style: 'purchase-product',
 
     data: {
-      list: Purchase.getRandomList(id),
-      purchase: Purchase.getById(id),
+      list: Prodact.getRandomList(id),
+      prodact: Prodact.getById(id),
     },
   })
   // ↑↑ сюди вводимо JSON дані
@@ -655,12 +661,12 @@ router.get('/purchase-alert', function (req, res) {
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/purchase-submit', function (req, res) {
-  console.log(req.body)
   const id = Number(req.query.id)
+  console.log(req.body)
 
   let {
     totalPrice,
-    purchasePrice,
+    prodactPrice,
     deliveryPrice,
     amount,
 
@@ -668,13 +674,15 @@ router.post('/purchase-submit', function (req, res) {
     lastname,
     email,
     phone,
+    comment,
 
     promocode,
+    bonus,
   } = req.body
 
-  const purchase = Purchase.getById(id)
+  const prodact = Prodact.getById(id)
 
-  if (!purchase) {
+  if (!prodact) {
     return res.render('purchase-alert', {
       // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'purchase-alert',
@@ -682,12 +690,12 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Товар не знайдено`,
-        link: `/prodact-list`,
+        link: `/purchase-list`,
       },
     })
   }
 
-  if (purchase.amount < amount) {
+  if (prodact.amount < amount) {
     return res.render('purchase-alert', {
       // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'purchase-alert',
@@ -695,33 +703,16 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Помилка`,
         info: `Товару нема в потрібній кількості`,
-        link: `/prodact-list`,
+        link: `/purchase-list`,
       },
     })
   }
 
   totalPrice = Number(totalPrice)
-  purchasePrice = Number(purchasePrice)
+  prodactPrice = Number(prodactPrice)
   deliveryPrice = Number(deliveryPrice)
   amount = Number(amount)
-
-  if (
-    isNaN(totalPrice) ||
-    isNaN(purchasePrice) ||
-    isNaN(deliveryPrice) ||
-    isNaN(amount)
-  ) {
-    return res.render('purchase-alert', {
-      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-      style: 'purchase-alert',
-
-      data: {
-        message: `Помилка`,
-        info: `Некоректні дані`,
-        link: `/prodact-list`,
-      },
-    })
-  }
+  bonus = Number(bonus)
 
   if (!firstname || !lastname || !email || !phone) {
     return res.render('purchase-alert', {
@@ -731,9 +722,24 @@ router.post('/purchase-submit', function (req, res) {
       data: {
         message: `Заповніть обовязкові поля`,
         info: `Некоректні дані`,
-        link: `/prodact-list`,
+        link: `/purchase-list`,
       },
     })
+  }
+
+  if (bonus || bonus > 0) {
+    const bonusAmount = Purchase.getBonusBalance(email)
+    console.log(bonusAmount)
+
+    if (bonus > bonusAmount) {
+      bonus = bonusAmount
+    }
+
+    Purchase.updateBonusBalance(email, totalPrice, bonus)
+
+    totalPrice -= bonus
+  } else {
+    Purchase.updateBonusBalance(email, totalPrice, 0)
   }
 
   if (promocode) {
@@ -742,13 +748,16 @@ router.post('/purchase-submit', function (req, res) {
     if (promocode) {
       totalPrice = Promocode.calc(promocode, totalPrice)
     }
+
+    if (totalPrice < 0) totalPrice = 0
   }
-  const prodact = Prodact.add(
+  const purchase = Purchase.add(
     {
       totalPrice,
-      purchasePrice,
+      prodactPrice,
       deliveryPrice,
       amount,
+      bonus,
 
       firstname,
       lastname,
@@ -756,20 +765,22 @@ router.post('/purchase-submit', function (req, res) {
       phone,
 
       promocode,
+      comment,
     },
-    purchase,
+    prodact,
   )
-  console.log(prodact) * //
-    res.render('purchase-alert', {
-      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-      style: 'purchase-alert',
+  console.log(purchase)
 
-      data: {
-        message: `Успішно`,
-        info: `Замовлення створено`,
-        link: `/prodact-list`,
-      },
-    })
+  res.render('purchase-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-alert',
+
+    data: {
+      message: `Успішно`,
+      info: `Замовлення створено`,
+      link: `/purchase-list`,
+    },
+  })
   // ↑↑ сюди вводимо JSON дані
 })
 
@@ -778,17 +789,17 @@ router.post('/purchase-submit', function (req, res) {
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.get('/prodact-list', function (req, res) {
+router.get('/purchase-list', function (req, res) {
   const list = Purchase.getList()
-  res.render('prodact-list', {
+  console.log(list)
+
+  res.render('purchase-list', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'prodact-list',
+    style: 'purchase-list',
 
     data: {
-      users: {
-        list,
-        isEmpty: list.length === 0,
-      },
+      list,
+      isEmpty: list.length === 0,
     },
   })
   // ↑↑ сюди вводимо JSON дані

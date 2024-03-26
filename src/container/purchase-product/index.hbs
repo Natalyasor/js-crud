@@ -5,7 +5,7 @@
 <main class="main">
   <section>
     {{> heading title = "Інформація про товар"}}
-    {{#with data.purchase}}
+    {{#with data.prodact}}
     <div class="product_purchase">
       <form method="POST" action="/purchase-create?id={{id}}">
         <div class="product_info">
