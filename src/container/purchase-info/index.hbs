@@ -1,0 +1,25 @@
+<main class="main_info">
+    <div class="card">
+        {{> heading title = "Інформація про замовлення"}}
+
+        <div class="form_info">
+            {{#with data.purchase}}
+            <div>ID: {{id}}</div>
+            <div>Імя: {{firstname}}</div>
+            <div>Прізвище: {{lastname}}</div>
+            <div>Емаіл: {{email}}</div>
+            <div>Телефон: {{phone}}</div>
+            <div>Назва товару: {{prodact.title}}</div>
+            <div>Коментар: {{comment}}</div>
+            <div>Вартість продукту: {{prodactPrice}}</div>
+            <div>Вартість доставки: {{deliveryPrice}}</div>
+            <div>Загальна вартість: {{totalPrice}}</div>
+            <div>Кількість: {{amount}}</div>
+            <div>Нараховані бонуси: {{bonus}}</div>
+            <a href="/purchase-edit?id={{id}}" class="btn btn-primary">Змінити дані</a>
+            {{/with}}
+
+        </div>
+
+    </div>
+</main>

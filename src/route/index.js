@@ -451,37 +451,6 @@ class Purchase {
   }
 }
 
-Purchase.add(
-  `Футбольний м'яч`,
-  [{ id: 14587 }],
-  1260.75,
-  12.6,
-)
-Purchase.add(
-  `Смартфон Xiaomi Redmi Note 10`,
-  [{ id: 14602 }],
-  5599.0,
-  55.99,
-)
-Purchase.add(
-  `Телевізор Samsung 55" 4K Ultra HD`,
-  [{ id: 14619 }],
-  22999.0,
-  229.99,
-)
-Purchase.add(
-  `Акустична система JBL Charge 4`,
-  [{ id: 14624 }],
-  4999.0,
-  49.99,
-)
-Purchase.add(
-  `Фотокамера Canon EOS M50`,
-  [{ id: 14631 }],
-  24750.0,
-  247.5,
-)
-
 class Promocode {
   static #list = []
 
@@ -806,6 +775,66 @@ router.get('/purchase-list', function (req, res) {
 })
 
 // ===============================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-info', function (req, res) {
+  const id = Number(req.query.id)
+
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-info', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-info',
+
+    data: {
+      purchase: Purchase.getById(id),
+    },
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+// ================================================================
+
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.get('/purchase-edit', function (req, res) {
+  const { id } = req.query
+  const purchase = Purchase.getById(Number(id))
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-edit', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-edit',
+
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+// ================================================================
+// ================================================================
+
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
+router.post('/purchase-edit', function (req, res) {
+  const { id, data } = req.query
+  const purchase = Purchase.getById(Number(id, data))
+  Purchase.updateById(id, data)
+  // ↙️ cюди вводимо назву файлу з сontainer
+  res.render('purchase-alert', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'purchase-alert',
+    data: {
+      message: `Успішно`,
+      info: `Зміни збережено`,
+      link: `/purchase-info`,
+    },
+    // ↑↑ сюди вводимо JSON дані
+  })
+})
+
+// ================================================================
 
 // Підключаємо роутер до бек-енду
 module.exports = router

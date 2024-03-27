@@ -1,8 +1,9 @@
-<div class="prodact-list">
+<div class="prodact_list">
+    <div class="list_content">
 
-    <span class="prodact_id">{{id}}</span>
+        <span class="prodact_id">{{id}}</span>
 
-    <h3 class="prodact_title">{{prodact.name}}</h3>
-    <div class="price">{{totalPrice}}</div>
-    <div class="bonus">{{bonus}}</div>
-</div>
+        <a href="/purchase-info?id={{id}}" class="prodact_title">{{prodact.title}}</a>
+        <div class="price">{{totalPrice}}</div>
+        <div class="bonus">{{bonus}}</div>
+    </div>

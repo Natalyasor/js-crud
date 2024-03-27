@@ -1,0 +1,27 @@
+<main class="main_edit">
+    <div class="card">
+        <form method="POST" action="/purchase-edit">
+            {{> heading title = "Змінна даних"}}
+
+
+            <div class="form">
+                {{> form label="ID" name="id"}}
+
+            </div>
+            <div class="form">
+                {{> form label="Прізвище" name="lastname"}}
+                {{> form label="Імя" name ="firstname"}}
+            </div>
+
+            <div class="form">
+                {{> form label="Телефон" name="phone"}}
+                {{> form label="Емаіл" name ="Email"}}
+
+            </div>
+            <a href="/purchase-edit?id={{id}}"></a>
+
+
+            <button class="btn btn-primary">Зберегти зміни</button>
+        </form>
+    </div>
+</main>

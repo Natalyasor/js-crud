@@ -20,4 +20,42 @@
   color: gray;
 }
 
+.prodact_list {
+  display: flex;
+  flex-direction: column;
+}
+
+.list_content {
+  display: grid;
+  grid-template-columns: repeat(4, 400px);
+}
+
+.prodact_id {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.prodact_title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.purchase_heading {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 400px);
+}
+
+.head {
+  font-size: 20px;
+}
+
+.price {
+  padding-left: 60px;
+}
+
+.bonus {
+  padding-left: 60px;
+}
+
 /*# sourceMappingURL=style.css.map */

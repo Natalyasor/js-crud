@@ -1,0 +1,41 @@
+.main_info {
+  display: flex;
+  flex-direction: column;
+  padding: 160px;
+  width: 70%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.form_info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form_input {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.btn {
+  font-size: 20px;
+}
+
+.form_info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 160px;
+}
+
+/*# sourceMappingURL=style.css.map */

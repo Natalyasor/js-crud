@@ -1,0 +1,35 @@
+@use '../../lib/service.scss' as s;
+
+.main_info {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(40);
+    width: 70%;
+}
+.card {
+    display: flex;
+   flex-direction: column;
+    padding: 40px;
+}
+.form_info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form_input {
+    border: 1px solid s.color("light");
+    border-radius: 5px;
+}
+.btn {
+    font-size: 20px;
+}
+.form_info {
+    display: flex;
+    flex-direction: column;
+    gap:40px;
+}
+ .card {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(40);
+ }
