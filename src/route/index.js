@@ -803,12 +803,14 @@ router.get('/purchase-info', function (req, res) {
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-edit', function (req, res) {
   const { id } = req.query
-  const purchase = Purchase.getById(Number(id))
+  let purchase = Purchase.getById(Number(id))
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-edit', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-edit',
-
+    data: {
+      purchase,
+    },
     // ↑↑ сюди вводимо JSON дані
   })
 })
@@ -828,9 +830,10 @@ router.post('/purchase-edit', function (req, res) {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-alert',
     data: {
+      purchase: Purchase.getById(id),
       message: `Успішно`,
       info: `Зміни збережено`,
-      link: `/purchase-info?id={{id}}`,
+      link: `/purchase-info`,
     },
     // ↑↑ сюди вводимо JSON дані
   })

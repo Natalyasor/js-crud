@@ -4,21 +4,23 @@
             {{> heading title = "Змінна даних"}}
 
 
-            <div class="form">
-                {{> form label="ID" name="id"}}
+            <div class="main_edit">
+                {{#with data.purchase}}
+                <label for="name" class="form_label">Прізвище</label>
+                <input type="text" value={{firstname}}>
 
+
+                <label for="name" class="form_label">Iмя</label>
+                <input type="text" value={{lastname}}>
+
+
+                <label for="name" class="form_label">Емаіл</label>
+                <input type="text" value={{email}}>
+
+                <label for="name" class="form_label">Телефон</label>
+                <input type="text" value={{phone}}>
+                {{/with}}
             </div>
-            <div class="form">
-                {{> form label="Прізвище" name="lastname"}}
-                {{> form label="Імя" name ="firstname"}}
-            </div>
-
-            <div class="form">
-                {{> form label="Телефон" name="phone"}}
-                {{> form label="Емаіл" name ="Email"}}
-
-            </div>
-
 
             <button class="btn btn-primary">Зберегти зміни</button>
         </form>

@@ -3,8 +3,7 @@
 .main_edit {
     display: flex;
     flex-direction: column;
-    padding: s.space(40);
-    width: 60%;
+   
 }
 .card {
     padding: 40px;
@@ -22,4 +21,10 @@
 }
 .btn {
     width: 100%;
+}
+.main_edit {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
 }
