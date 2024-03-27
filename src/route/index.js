@@ -1,5 +1,6 @@
 // Підключаємо технологію express для back-end сервера
 const express = require('express')
+const { localsAsTemplateData } = require('hbs')
 // Cтворюємо роутер - місце, куди ми підключаємо ендпоїнти
 const router = express.Router()
 
@@ -818,9 +819,10 @@ router.get('/purchase-edit', function (req, res) {
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/purchase-edit', function (req, res) {
-  const { id, data } = req.query
-  const purchase = Purchase.getById(Number(id, data))
-  Purchase.updateById(id, data)
+  const { id, firstname, lastname, email, phone } =
+    req.query
+
+  Purchase.updateById(id, firstname, lastname, email, phone)
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-alert', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
@@ -828,7 +830,7 @@ router.post('/purchase-edit', function (req, res) {
     data: {
       message: `Успішно`,
       info: `Зміни збережено`,
-      link: `/purchase-info`,
+      link: `/purchase-info?id={{id}}`,
     },
     // ↑↑ сюди вводимо JSON дані
   })
